@@ -1,0 +1,21 @@
+{
+  "app_title": "Lista de 100 de Zúme",
+  "home_title": "Lista de 100",
+  "profile_title": "Perfil",
+  "delete_all_title": "Borrar Todo",
+  "unbeliever": "No creyente",
+  "believer": "Creyente",
+  "unknown": "Desconocido",
+  "add_person_hint": "Ingrese un nombre",
+  "save": "Guardar",
+  "cancel": "Cancelar",
+  "delete_all": "Borrar Todo",
+  "delete_all_confirmation": "¿Está seguro de que desea eliminar todas las entradas?",
+  "yes": "Sí",
+  "no": "No",
+  "menu": "Menú",
+  "home": "Inicio",
+  "profile": "Perfil",
+  "language": "Idioma",
+  "language_selection": "Seleccionar Idioma"
+} 

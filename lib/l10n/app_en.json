@@ -1,0 +1,21 @@
+{
+  "app_title": "Zúme List of 100",
+  "home_title": "List of 100",
+  "profile_title": "Profile",
+  "delete_all_title": "Delete All",
+  "unbeliever": "Unbeliever",
+  "believer": "Believer",
+  "unknown": "Unknown",
+  "add_person_hint": "Enter a name",
+  "save": "Save",
+  "cancel": "Cancel",
+  "delete_all": "Delete All",
+  "delete_all_confirmation": "Are you sure you want to delete all entries?",
+  "yes": "Yes",
+  "no": "No",
+  "menu": "Menu",
+  "home": "Home",
+  "profile": "Profile",
+  "language": "Language",
+  "language_selection": "Select Language"
+} 
