@@ -1,4 +1,5 @@
 {
+  "@@locale": "zh",
   "app_title": "Zúme 百人名单",
   "home_title": "百人名单",
   "profile_title": "个人资料",
@@ -23,4 +24,4 @@
   "about_app_title": "关于此应用",
   "about_app_description1": "此应用程序是Zúme培训的一部分，支持识别您生活中需要为神国管理的关系的任务。",
   "about_app_description2": "这个简单的应用程序是免费的。在这里收集的所有名称和状态都保留在您的手机上，不会与其他任何人共享。"
-} 
+}

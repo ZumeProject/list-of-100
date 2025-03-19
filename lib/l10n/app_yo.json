@@ -1,4 +1,5 @@
 {
+  "@@locale": "yo",
   "app_title": "Àkójọ Zúme 100",
   "home_title": "Àkójọ 100",
   "profile_title": "Profaili",
@@ -23,4 +24,4 @@
   "about_app_title": "Nípa Ìṣàmúlò yìí",
   "about_app_description1": "A pèsè ìṣàmúlò yìí gẹ́gẹ́ bí apá kan nínú ìkẹ́kọ̀ọ́ Zúme àti láti ṣe àtìlẹ́yìn iṣẹ́ dídi àwọn ìbáṣepọ̀ nínú ìgbé ayé rẹ tí o gbọ́dọ̀ tọ́jú fún ìjọba.",
   "about_app_description2": "Ìṣàmúlò rọrùn yìí jẹ́ ọ̀fẹ́. Gbogbo àwọn orúkọ àti ipò tí a kójọ níbí wà lórí fóònù rẹ àti pé a kò lo pín pẹ̀lú ẹnikẹ́ni mìíràn."
-} 
+}

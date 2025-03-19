@@ -1,4 +1,5 @@
 {
+  "@@locale": "bs",
   "app_title": "Zúme Lista 100",
   "home_title": "Lista 100",
   "profile_title": "Profil",
@@ -23,4 +24,4 @@
   "about_app_title": "O ovoj aplikaciji",
   "about_app_description1": "Ova aplikacija je dostupna kao dio Zúme obuke i podržava zadatak identifikacije odnosa u vašem životu koje trebate voditi za kraljevstvo.",
   "about_app_description2": "Ova jednostavna aplikacija je besplatna. Sva imena i statusi prikupljeni ovdje ostaju na vašem telefonu i ne dijele se ni s kim drugim."
-} 
+}

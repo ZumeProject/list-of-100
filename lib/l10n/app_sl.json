@@ -1,4 +1,5 @@
 {
+  "@@locale": "sl",
   "app_title": "Zúme Seznam 100",
   "home_title": "Seznam 100",
   "profile_title": "Profil",
@@ -23,4 +24,4 @@
   "about_app_title": "O tej aplikaciji",
   "about_app_description1": "Ta aplikacija je na voljo kot del usposabljanja Zúme in podpira nalogo prepoznavanja odnosov v vašem življenju, ki jih morate upravljati za kraljestvo.",
   "about_app_description2": "Ta preprosta aplikacija je brezplačna. Vsa imena in statusi, zbrani tukaj, ostanejo na vašem telefonu in niso deljeni z nikomer drugim."
-} 
+}
