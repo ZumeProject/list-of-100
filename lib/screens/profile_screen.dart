@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter_android/webview_flutter_android.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/app_theme.dart';
 
@@ -24,8 +25,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     if (!kIsWeb) {
-      _controller = WebViewController()
+      // Create WebView instance
+      final WebViewController controller = WebViewController();
+      
+      // Platform-specific settings for Android
+      if (WebViewPlatform.instance is AndroidWebViewPlatform) {
+        final AndroidWebViewController androidController = 
+            controller.platform as AndroidWebViewController;
+        
+        // Set media playback settings
+        androidController.setMediaPlaybackRequiresUserGesture(false);
+      }
+      
+      // Configure controller with navigation settings
+      controller
         ..setJavaScriptMode(JavaScriptMode.unrestricted)
+        ..setBackgroundColor(Colors.white)
         ..setNavigationDelegate(
           NavigationDelegate(
             onPageStarted: (String url) {
@@ -38,9 +53,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 _isLoading = false;
               });
             },
+            onWebResourceError: (WebResourceError error) {
+              print('WebView error: ${error.description}');
+            },
           ),
         )
-        ..loadRequest(Uri.parse('https://zume.training/login'));
+        ..loadRequest(
+          Uri.parse('https://zume.training/login'),
+          headers: {
+            'Cache-Control': 'no-cache',
+            'Pragma': 'no-cache',
+            'Expires': '0',
+          },
+        );
+      
+      _controller = controller;
     } else {
       _controller = null;
       _isLoading = false;
