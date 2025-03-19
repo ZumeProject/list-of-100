@@ -9,9 +9,9 @@ import '../widgets/person_tile.dart';
 import '../widgets/add_person_form.dart';
 
 class HomeScreen extends StatefulWidget {
-  final Function(Locale) setLocale;
+  final Function(Locale)? setLocale;
 
-  const HomeScreen({super.key, required this.setLocale});
+  const HomeScreen({super.key, this.setLocale});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -230,6 +230,7 @@ class _HomeScreenState extends State<HomeScreen> {
       {'code': 'ml', 'name': 'മലയാളം (Malayalam)'},
       {'code': 'mr', 'name': 'मराठी (Marathi)'},
       {'code': 'ne', 'name': 'नेपाली (Nepali)'},
+      {'code': 'or', 'name': 'ଓଡ଼ିଆ (Odia)'},
       {'code': 'fa', 'name': 'فارسی (Persian)'},
       {'code': 'pl', 'name': 'Polski (Polish)'},
       {'code': 'pt', 'name': 'Português (Portuguese)'},
@@ -237,6 +238,8 @@ class _HomeScreenState extends State<HomeScreen> {
       {'code': 'pa_pk', 'name': 'پنجابی (Western Punjabi)'},
       {'code': 'ru', 'name': 'Русский (Russian)'},
       {'code': 'ro', 'name': 'Română (Romanian)'},
+      {'code': 'sl', 'name': 'Slovenščina (Slovenian)'},
+      {'code': 'so', 'name': 'Soomaali (Somali)'},
       {'code': 'es', 'name': 'Español (Spanish)'},
       {'code': 'swa', 'name': 'Kiswahili (Swahili)'},
       {'code': 'ta', 'name': 'தமிழ் (Tamil)'},
@@ -259,7 +262,9 @@ class _HomeScreenState extends State<HomeScreen> {
       return ListTile(
         title: Text(language['name']!),
         onTap: () {
-          widget.setLocale(Locale(language['code']!));
+          if (widget.setLocale != null) {
+            widget.setLocale!(Locale(language['code']!));
+          }
           Navigator.pop(context);
         },
       );

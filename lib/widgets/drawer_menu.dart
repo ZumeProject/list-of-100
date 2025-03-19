@@ -3,7 +3,7 @@ import '../l10n/app_localizations.dart';
 import '../utils/app_theme.dart';
 
 class DrawerMenu extends StatelessWidget {
-  final Function(Locale) setLocale;
+  final Function(Locale)? setLocale;
 
   const DrawerMenu({super.key, required this.setLocale});
 
@@ -168,6 +168,7 @@ class DrawerMenu extends StatelessWidget {
       {'code': 'ml', 'name': 'മലയാളം (Malayalam)'},
       {'code': 'mr', 'name': 'मराठी (Marathi)'},
       {'code': 'ne', 'name': 'नेपाली (Nepali)'},
+      {'code': 'or', 'name': 'ଓଡ଼ିଆ (Odia)'},
       {'code': 'fa', 'name': 'فارسی (Persian)'},
       {'code': 'pl', 'name': 'Polski (Polish)'},
       {'code': 'pt', 'name': 'Português (Portuguese)'},
@@ -175,6 +176,8 @@ class DrawerMenu extends StatelessWidget {
       {'code': 'pa_pk', 'name': 'پنجابی (Western Punjabi)'},
       {'code': 'ru', 'name': 'Русский (Russian)'},
       {'code': 'ro', 'name': 'Română (Romanian)'},
+      {'code': 'sl', 'name': 'Slovenščina (Slovenian)'},
+      {'code': 'so', 'name': 'Soomaali (Somali)'},
       {'code': 'es', 'name': 'Español (Spanish)'},
       {'code': 'swa', 'name': 'Kiswahili (Swahili)'},
       {'code': 'ta', 'name': 'தமிழ் (Tamil)'},
@@ -197,7 +200,9 @@ class DrawerMenu extends StatelessWidget {
       return ListTile(
         title: Text(language['name']!),
         onTap: () {
-          setLocale(Locale(language['code']!));
+          if (setLocale != null) {
+            setLocale!(Locale(language['code']!));
+          }
           Navigator.pop(context);
         },
       );
