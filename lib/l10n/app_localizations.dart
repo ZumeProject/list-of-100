@@ -69,32 +69,31 @@ class AppLocalizations {
 
   Future<bool> load() async {
     try {
-      // Special handling for Chinese variants
-      if (locale.languageCode == 'zh') {
-        String suffix = '';
-        if (locale.countryCode == 'CN') {
-          suffix = 'cn';
-        } else if (locale.countryCode == 'TW') {
-          suffix = 'tw';
-        } else if (locale.countryCode == 'HK') {
-          suffix = 'hk';
-        }
-        
-        if (suffix.isNotEmpty) {
-          String jsonString = await rootBundle.loadString('assets/l10n/app_zh$suffix.json');
-          Map<String, dynamic> jsonMap = json.decode(jsonString);
-          
-          _localizedStrings = jsonMap.map((key, value) {
-            return MapEntry(key, value.toString());
-          });
-          
-          return true;
-        }
+      // Try to handle special cases based on filename patterns first
+      String assetPath;
+      
+      // For Chinese variants, we'll match the filename with the locale pattern
+      if (locale.languageCode == 'zh' && locale.countryCode != null) {
+        // Try using the country code
+        String suffix = locale.countryCode!.toLowerCase();
+        assetPath = 'assets/l10n/app_zh$suffix.json';
+      } 
+      // For Punjabi with Pakistan country code
+      else if (locale.languageCode == 'pa' && locale.countryCode == 'PK') {
+        assetPath = 'assets/l10n/app_pa_pk.json';
+      }
+      // For direct matches with country code
+      else if (locale.countryCode != null) {
+        assetPath = 'assets/l10n/app_${locale.languageCode}_${locale.countryCode!.toLowerCase()}.json';
+      }
+      // For direct matches with only language code
+      else {
+        assetPath = 'assets/l10n/app_${locale.languageCode}.json';
       }
       
-      // Special handling for Punjabi with Pakistan country code
-      if (locale.languageCode == 'pa' && locale.countryCode == 'PK') {
-        String jsonString = await rootBundle.loadString('assets/l10n/app_pa_pk.json');
+      // Also try looking for files with the exact language code from the Locale
+      try {
+        String jsonString = await rootBundle.loadString(assetPath);
         Map<String, dynamic> jsonMap = json.decode(jsonString);
         
         _localizedStrings = jsonMap.map((key, value) {
@@ -102,18 +101,25 @@ class AppLocalizations {
         });
         
         return true;
+      } catch (e) {
+        // If we couldn't find the exact match, try the simple language code as fallback
+        if (locale.countryCode != null) {
+          assetPath = 'assets/l10n/app_${locale.languageCode}.json';
+          String jsonString = await rootBundle.loadString(assetPath);
+          Map<String, dynamic> jsonMap = json.decode(jsonString);
+          
+          _localizedStrings = jsonMap.map((key, value) {
+            return MapEntry(key, value.toString());
+          });
+          
+          return true;
+        } else {
+          // If we still can't find it, throw to trigger the fallback to English
+          throw Exception('Language file not found');
+        }
       }
-      
-      // Try to load the specific locale file
-      String jsonString = await rootBundle.loadString('assets/l10n/app_${locale.languageCode}.json');
-      Map<String, dynamic> jsonMap = json.decode(jsonString);
-      
-      _localizedStrings = jsonMap.map((key, value) {
-        return MapEntry(key, value.toString());
-      });
-      
-      return true;
     } catch (e) {
+      print('Error loading locale ${locale.languageCode}: $e');
       try {
         // Fall back to English
         String jsonString = await rootBundle.loadString('assets/l10n/app_en.json');
@@ -123,15 +129,19 @@ class AppLocalizations {
           return MapEntry(key, value.toString());
         });
         
+        print('Falling back to English locale due to error with ${locale.languageCode}');
         return true;
       } catch (e) {
-        print('Error loading language file: $e');
+        print('Critical error loading language files: $e');
+        // Initialize with empty map to prevent null errors
+        _localizedStrings = {};
         return false;
       }
     }
   }
 
   String translate(String key) {
+    // Null safety check - return the key itself if translation not found
     return _localizedStrings[key] ?? key;
   }
 

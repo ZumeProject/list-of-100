@@ -1,4 +1,5 @@
 {
+  "@@locale": "it",
   "app_title": "Lista dei 100 di Zúme",
   "home_title": "Lista dei 100",
   "profile_title": "Profilo",
@@ -23,4 +24,4 @@
   "about_app_title": "Informazioni sull'App",
   "about_app_description1": "Questa app è fornita come parte del training Zúme e supporta il compito di identificare le relazioni nella tua vita che devi amministrare per il regno.",
   "about_app_description2": "Questa semplice app è gratuita. Tutti i nomi e gli stati raccolti qui rimangono sul tuo telefono e non sono condivisi con nessun altro."
-} 
+}
