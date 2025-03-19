@@ -26,15 +26,6 @@ class DrawerMenu extends StatelessWidget {
           ),
           _buildMenuItem(
             context,
-            icon: Icons.person,
-            title: localizations.profile,
-            onTap: () {
-              Navigator.pop(context);
-              Navigator.pushNamed(context, '/profile');
-            },
-          ),
-          _buildMenuItem(
-            context,
             icon: Icons.delete_forever,
             title: localizations.deleteAll,
             onTap: () {
@@ -143,14 +134,13 @@ class DrawerMenu extends StatelessWidget {
       {'code': 'am', 'name': 'አማርኛ (Amharic)'},
       {'code': 'ar', 'name': 'العربية (Arabic)'},
       {'code': 'hy', 'name': 'Հայերեն (Armenian)'},
-      {'code': 'asl', 'name': 'American Sign Language'},
       {'code': 'bn', 'name': 'বাংলা (Bengali)'},
       {'code': 'bho', 'name': 'भोजपुरी (Bhojpuri)'},
       {'code': 'bs', 'name': 'Bosanski (Bosnian)'},
       {'code': 'my', 'name': 'မြန်မာ (Burmese)'},
-      {'code': 'zhhk', 'name': '廣東話 (Cantonese)'},
-      {'code': 'zhcn', 'name': '简体中文 (Chinese Simplified)'},
-      {'code': 'zhtw', 'name': '繁體中文 (Chinese Traditional)'},
+      {'code': 'zh', 'countryCode': 'HK', 'name': '廣東話 (Cantonese)'},
+      {'code': 'zh', 'countryCode': 'CN', 'name': '简体中文 (Chinese Simplified)'},
+      {'code': 'zh', 'countryCode': 'TW', 'name': '繁體中文 (Chinese Traditional)'},
       {'code': 'hr', 'name': 'Hrvatski (Croatian)'},
       {'code': 'fr', 'name': 'Français (French)'},
       {'code': 'de', 'name': 'Deutsch (German)'},
@@ -173,7 +163,7 @@ class DrawerMenu extends StatelessWidget {
       {'code': 'pl', 'name': 'Polski (Polish)'},
       {'code': 'pt', 'name': 'Português (Portuguese)'},
       {'code': 'pa', 'name': 'ਪੰਜਾਬੀ (Punjabi)'},
-      {'code': 'pa_pk', 'name': 'پنجابی (Western Punjabi)'},
+      {'code': 'pa', 'countryCode': 'PK', 'name': 'پنجابی (Western Punjabi)'},
       {'code': 'ru', 'name': 'Русский (Russian)'},
       {'code': 'ro', 'name': 'Română (Romanian)'},
       {'code': 'sl', 'name': 'Slovenščina (Slovenian)'},
@@ -201,7 +191,11 @@ class DrawerMenu extends StatelessWidget {
         title: Text(language['name']!),
         onTap: () {
           if (setLocale != null) {
-            setLocale!(Locale(language['code']!));
+            if (language.containsKey('countryCode')) {
+              setLocale!(Locale(language['code']!, language['countryCode']));
+            } else {
+              setLocale!(Locale(language['code']!));
+            }
           }
           Navigator.pop(context);
         },

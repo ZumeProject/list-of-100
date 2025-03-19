@@ -205,7 +205,6 @@ class _HomeScreenState extends State<HomeScreen> {
       {'code': 'am', 'name': 'አማርኛ (Amharic)'},
       {'code': 'ar', 'name': 'العربية (Arabic)'},
       {'code': 'hy', 'name': 'Հայերեն (Armenian)'},
-      {'code': 'asl', 'name': 'American Sign Language'},
       {'code': 'bn', 'name': 'বাংলা (Bengali)'},
       {'code': 'bho', 'name': 'भोजपुरी (Bhojpuri)'},
       {'code': 'bs', 'name': 'Bosanski (Bosnian)'},
@@ -263,7 +262,11 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text(language['name']!),
         onTap: () {
           if (widget.setLocale != null) {
-            widget.setLocale!(Locale(language['code']!));
+            if (language.containsKey('countryCode')) {
+              widget.setLocale!(Locale(language['code']!, language['countryCode']));
+            } else {
+              widget.setLocale!(Locale(language['code']!));
+            }
           }
           Navigator.pop(context);
         },

@@ -133,7 +133,6 @@ class _DeleteAllScreenState extends State<DeleteAllScreen> {
       {'code': 'am', 'name': 'አማርኛ (Amharic)'},
       {'code': 'ar', 'name': 'العربية (Arabic)'},
       {'code': 'hy', 'name': 'Հայերեն (Armenian)'},
-      {'code': 'asl', 'name': 'American Sign Language'},
       {'code': 'bn', 'name': 'বাংলা (Bengali)'},
       {'code': 'bho', 'name': 'भोजपुरी (Bhojpuri)'},
       {'code': 'bs', 'name': 'Bosanski (Bosnian)'},
@@ -191,7 +190,11 @@ class _DeleteAllScreenState extends State<DeleteAllScreen> {
         title: Text(language['name']!),
         onTap: () {
           if (widget.setLocale != null) {
-            widget.setLocale!(Locale(language['code']!));
+            if (language.containsKey('countryCode')) {
+              widget.setLocale!(Locale(language['code']!, language['countryCode']));
+            } else {
+              widget.setLocale!(Locale(language['code']!));
+            }
           }
           Navigator.pop(context);
         },

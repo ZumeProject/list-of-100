@@ -22,7 +22,6 @@ class AppLocalizations {
     const Locale('ar', 'JO'),
     const Locale('ar', 'TN'),
     const Locale('hy'),
-    const Locale('asl'),
     const Locale('bn'),
     const Locale('bho'),
     const Locale('bs'),
@@ -70,8 +69,43 @@ class AppLocalizations {
 
   Future<bool> load() async {
     try {
+      // Special handling for Chinese variants
+      if (locale.languageCode == 'zh') {
+        String suffix = '';
+        if (locale.countryCode == 'CN') {
+          suffix = 'cn';
+        } else if (locale.countryCode == 'TW') {
+          suffix = 'tw';
+        } else if (locale.countryCode == 'HK') {
+          suffix = 'hk';
+        }
+        
+        if (suffix.isNotEmpty) {
+          String jsonString = await rootBundle.loadString('assets/l10n/app_zh$suffix.json');
+          Map<String, dynamic> jsonMap = json.decode(jsonString);
+          
+          _localizedStrings = jsonMap.map((key, value) {
+            return MapEntry(key, value.toString());
+          });
+          
+          return true;
+        }
+      }
+      
+      // Special handling for Punjabi with Pakistan country code
+      if (locale.languageCode == 'pa' && locale.countryCode == 'PK') {
+        String jsonString = await rootBundle.loadString('assets/l10n/app_pa_pk.json');
+        Map<String, dynamic> jsonMap = json.decode(jsonString);
+        
+        _localizedStrings = jsonMap.map((key, value) {
+          return MapEntry(key, value.toString());
+        });
+        
+        return true;
+      }
+      
       // Try to load the specific locale file
-      String jsonString = await rootBundle.loadString('assets/l10n/app_${locale.languageCode}${locale.countryCode != null ? '_${locale.countryCode}' : ''}.json');
+      String jsonString = await rootBundle.loadString('assets/l10n/app_${locale.languageCode}.json');
       Map<String, dynamic> jsonMap = json.decode(jsonString);
       
       _localizedStrings = jsonMap.map((key, value) {
@@ -81,21 +115,7 @@ class AppLocalizations {
       return true;
     } catch (e) {
       try {
-        // If specific locale not found, try loading just the language code
-        if (locale.countryCode != null) {
-          String jsonString = await rootBundle.loadString('assets/l10n/app_${locale.languageCode}.json');
-          Map<String, dynamic> jsonMap = json.decode(jsonString);
-          
-          _localizedStrings = jsonMap.map((key, value) {
-            return MapEntry(key, value.toString());
-          });
-          
-          return true;
-        } else {
-          throw Exception('Language file not found');
-        }
-      } catch (e) {
-        // Finally fall back to English
+        // Fall back to English
         String jsonString = await rootBundle.loadString('assets/l10n/app_en.json');
         Map<String, dynamic> jsonMap = json.decode(jsonString);
         
@@ -104,6 +124,9 @@ class AppLocalizations {
         });
         
         return true;
+      } catch (e) {
+        print('Error loading language file: $e');
+        return false;
       }
     }
   }
@@ -115,7 +138,6 @@ class AppLocalizations {
   // Convenience method to keep the code in the widgets concise
   String get appTitle => translate('app_title');
   String get homeTitle => translate('home_title');
-  String get profileTitle => translate('profile_title');
   String get deleteAllTitle => translate('delete_all_title');
   String get unbeliever => translate('unbeliever');
   String get believer => translate('believer');
@@ -129,7 +151,6 @@ class AppLocalizations {
   String get no => translate('no');
   String get menu => translate('menu');
   String get home => translate('home');
-  String get profile => translate('profile');
   String get language => translate('language');
   String get languageSelection => translate('language_selection');
   String get about => translate('about');

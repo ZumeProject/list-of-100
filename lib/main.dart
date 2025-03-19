@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'l10n/app_localizations.dart';
 import 'screens/home_screen.dart';
-import 'screens/profile_screen.dart';
 import 'screens/delete_all_screen.dart';
 import 'screens/about_screen.dart';
 import 'services/storage_service.dart';
@@ -57,7 +56,6 @@ class _MyAppState extends State<MyApp> {
       home: HomeScreen(setLocale: setLocale),
       routes: {
         '/home': (context) => HomeScreen(setLocale: setLocale),
-        '/profile': (context) => ProfileScreen(setLocale: setLocale),
         '/delete_all': (context) => DeleteAllScreen(setLocale: setLocale),
         '/about': (context) => AboutScreen(setLocale: setLocale),
       },
