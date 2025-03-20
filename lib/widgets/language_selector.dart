@@ -7,9 +7,9 @@ class LanguageSelector extends StatelessWidget {
   final Function(Locale) onLocaleSelected;
   
   const LanguageSelector({
-    Key? key,
+    super.key,
     required this.onLocaleSelected,
-  }) : super(key: key);
+  });
 
   /// Show the language selector as a bottom sheet
   static void show(BuildContext context, Function(Locale)? onLocaleSelected) {

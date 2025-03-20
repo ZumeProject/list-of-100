@@ -21,8 +21,6 @@ class AppLocalizations {
   static List<Locale> get supportedLocales => LanguageService().locales;
 
   Future<bool> load() async {
-    print('Attempting to load locale: ${locale.languageCode}');
-    
     try {
       // Try to handle special cases based on filename patterns first
       String assetPath;
@@ -36,8 +34,6 @@ class AppLocalizations {
       else {
         assetPath = 'assets/l10n/app_${locale.languageCode}.json';
       }
-      
-      print('Attempting to load file: $assetPath');
       
       // Try looking for files with the exact language code from the Locale
       try {
@@ -60,22 +56,15 @@ class AppLocalizations {
           }
         }
         
-        if (missingKeys.isNotEmpty) {
-          print('WARNING: Missing keys in ${locale.languageCode} locale: ${missingKeys.join(', ')}');
-        }
-        
         _localizedStrings = jsonMap.map((key, value) {
           return MapEntry(key, value.toString());
         });
         
-        print('Successfully loaded file: $assetPath');
         return true;
       } catch (e) {
-        print('Error loading $assetPath: $e');
         // If we couldn't find the exact match, try the simple language code as fallback
         if (locale.countryCode != null) {
           assetPath = 'assets/l10n/app_${locale.languageCode}.json';
-          print('Trying fallback: $assetPath');
           String jsonString = await rootBundle.loadString(assetPath);
           Map<String, dynamic> jsonMap = json.decode(jsonString);
           
@@ -95,24 +84,17 @@ class AppLocalizations {
             }
           }
           
-          if (missingKeys.isNotEmpty) {
-            print('WARNING: Missing keys in fallback ${locale.languageCode} locale: ${missingKeys.join(', ')}');
-          }
-          
           _localizedStrings = jsonMap.map((key, value) {
             return MapEntry(key, value.toString());
           });
           
-          print('Successfully loaded fallback: $assetPath');
           return true;
         } else {
           // If we still can't find it, throw to trigger the fallback to English
-          print('Cannot find language file for ${locale.languageCode}, falling back to English');
           throw Exception('Language file not found');
         }
       }
     } catch (e) {
-      print('Error loading locale ${locale.languageCode}: $e');
       try {
         // Fall back to English
         String jsonString = await rootBundle.loadString('assets/l10n/app_en.json');
@@ -122,10 +104,8 @@ class AppLocalizations {
           return MapEntry(key, value.toString());
         });
         
-        print('Falling back to English locale due to error with ${locale.languageCode}');
         return true;
       } catch (e) {
-        print('Critical error loading language files: $e');
         // Initialize with empty map to prevent null errors
         _localizedStrings = {};
         return false;
@@ -134,15 +114,13 @@ class AppLocalizations {
   }
 
   String translate(String key) {
-    if (_localizedStrings == null || _localizedStrings.isEmpty) {
-      print('WARNING: Localized strings is empty for ${locale.languageCode}');
+    if (_localizedStrings.isEmpty) {
       return key; // Return the key as fallback
     }
     
     // Null safety check - return the key itself if translation not found
     final value = _localizedStrings[key];
     if (value == null) {
-      print('WARNING: Missing translation for key "$key" in ${locale.languageCode}');
       return key;
     }
     
@@ -179,8 +157,6 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
 
   @override
   bool isSupported(Locale locale) {
-    print('Checking if locale is supported: ${locale.languageCode}');
-    
     // Check if the language code is supported
     final languageSupported = AppLocalizations.supportedLocales
         .map((e) => e.languageCode)
