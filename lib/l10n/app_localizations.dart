@@ -26,30 +26,11 @@ class AppLocalizations {
       // Try to handle special cases based on filename patterns first
       String assetPath;
       
-      // Special handling for 'swa' locale
-      if (locale.languageCode == 'swa') {
-        print('Using special handling for Swahili (swa)');
-        assetPath = 'assets/l10n/app_swa.json';
-      }
-      // Special handling for Kurdish locale
-      else if (locale.languageCode == 'ku') {
-        print('Using special handling for Kurdish (ku)');
-        assetPath = 'assets/l10n/app_ku.json';
-      }
-      // For Chinese variants, we'll match the filename with the locale pattern
-      else if (locale.languageCode == 'zh' && locale.countryCode != null) {
-        // Try using the country code
-        String suffix = locale.countryCode!.toLowerCase();
-        assetPath = 'assets/l10n/app_zh$suffix.json';
-      } 
-      // For Punjabi with Pakistan country code
-      else if (locale.languageCode == 'pa' && locale.countryCode == 'PK') {
-        assetPath = 'assets/l10n/app_pa_pk.json';
-      }
-      // For direct matches with country code
-      else if (locale.countryCode != null) {
+      // For Chinese or other languages with country code variants
+      if (locale.countryCode != null) {
+        // Format: language_COUNTRY (e.g., zh_CN, zh_TW, zh_HK)
         assetPath = 'assets/l10n/app_${locale.languageCode}_${locale.countryCode!.toLowerCase()}.json';
-      }
+      } 
       // For direct matches with only language code
       else {
         assetPath = 'assets/l10n/app_${locale.languageCode}.json';
@@ -204,20 +185,6 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
         .map((e) => e.languageCode)
         .contains(locale.languageCode);
     
-    // Special debug for Swahili
-    if (locale.languageCode == 'swa') {
-      print('Special debug - Checking support for ${locale.languageCode}');
-      print('Is supported: $languageSupported');
-      print('Supported locales: ${AppLocalizations.supportedLocales.map((e) => e.languageCode).toList()}');
-    }
-    
-    // Special debug for Kurdish
-    if (locale.languageCode == 'ku') {
-      print('Special debug - Checking support for Kurdish');
-      print('Is Kurdish supported: $languageSupported');
-      print('Supported locales: ${AppLocalizations.supportedLocales.map((e) => e.languageCode).toList()}');
-    }
-    
     // If the language has a country code, check if the specific locale is supported
     if (locale.countryCode != null) {
       final specificSupport = AppLocalizations.supportedLocales.any(
@@ -225,11 +192,6 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
           supportedLocale.languageCode == locale.languageCode && 
           supportedLocale.countryCode == locale.countryCode
       );
-      
-      if (locale.languageCode == 'swa') {
-        print('Has country code: ${locale.countryCode}');
-        print('Specific support: $specificSupport');
-      }
       
       return specificSupport;
     }
