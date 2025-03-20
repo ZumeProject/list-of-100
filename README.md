@@ -1,34 +1,19 @@
-# zume_list_of_100
+# Zume List of 100
 
-A new Flutter project.
+A small application supporting the list of 100 activity.
 
-## Getting Started
+Web version : https://listof100.netlify.app/
 
-This project is a starting point for a Flutter application.
+## Overview
 
-A few resources to get you started if this is your first Flutter project:
+This application helps users create and manage their "List of 100" - a list of people in their life and identify if they are a Believer, Unbeliever, or Unknown. Key features include:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- Create multiple lists with different themes/categories
+- Add, edit and delete items in your lists
+- Track progress with item count and completion status
+- Persistent storage so your lists are saved locally
+- Clean, minimalist interface focused on the writing experience
+- Works offline as a Progressive Web App (PWA)
+- Mobile-friendly responsive design
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
-## Language Handling Rules
-
-This app follows these guidelines for handling language codes and localization:
-
-1. **Do not change language codes without explicit request**
-   - The language codes should match the exact filename patterns in assets/l10n/
-   - Example: Use 'zhhk' rather than 'zh' with country code 'HK' unless specifically requested
-
-2. **Preserve existing @@locale values**
-   - Never modify the @@locale property in existing JSON files
-   - When adding new language files, use the filename-based convention
-
-3. **Use filename-based direct access**
-   - Direct matches should use the filename pattern (e.g., 'pa_pk' not 'pa' with country code 'PK')
-   - This maintains consistency between file organization and code
-
-## Building and Running
+The web version is built with Flutter and can be accessed at https://listof100.netlify.app/
