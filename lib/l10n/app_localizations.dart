@@ -13,7 +13,8 @@ class AppLocalizations {
   static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
 
   static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+    return Localizations.of<AppLocalizations>(context, AppLocalizations) ?? 
+        AppLocalizations(const Locale('en')); // Fallback to English if not found
   }
 
   // Use the LanguageService to get supported locales

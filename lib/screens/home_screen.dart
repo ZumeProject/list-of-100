@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(Icons.language),
             tooltip: localizations.languageSelection,
-            onPressed: () => LanguageSelector.show(context, widget.setLocale!),
+            onPressed: () => LanguageSelector.show(context, widget.setLocale),
           ),
         ],
       ),

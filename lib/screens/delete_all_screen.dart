@@ -29,7 +29,7 @@ class _DeleteAllScreenState extends State<DeleteAllScreen> {
           IconButton(
             icon: const Icon(Icons.language),
             tooltip: localizations.languageSelection,
-            onPressed: () => LanguageSelector.show(context, widget.setLocale!),
+            onPressed: () => LanguageSelector.show(context, widget.setLocale),
           ),
         ],
       ),

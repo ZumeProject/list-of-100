@@ -50,7 +50,7 @@ class DrawerMenu extends StatelessWidget {
             title: localizations.language,
             onTap: () {
               Navigator.pop(context);
-              LanguageSelector.show(context, setLocale!);
+              LanguageSelector.show(context, setLocale);
             },
           ),
         ],

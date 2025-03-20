@@ -12,7 +12,10 @@ class LanguageSelector extends StatelessWidget {
   }) : super(key: key);
 
   /// Show the language selector as a bottom sheet
-  static void show(BuildContext context, Function(Locale) onLocaleSelected) {
+  static void show(BuildContext context, Function(Locale)? onLocaleSelected) {
+    // Don't show the selector if the callback is null
+    if (onLocaleSelected == null) return;
+    
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
