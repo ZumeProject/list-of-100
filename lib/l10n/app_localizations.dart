@@ -31,6 +31,11 @@ class AppLocalizations {
         print('Using special handling for Swahili (swa)');
         assetPath = 'assets/l10n/app_swa.json';
       }
+      // Special handling for Kurdish locale
+      else if (locale.languageCode == 'ku') {
+        print('Using special handling for Kurdish (ku)');
+        assetPath = 'assets/l10n/app_ku.json';
+      }
       // For Chinese variants, we'll match the filename with the locale pattern
       else if (locale.languageCode == 'zh' && locale.countryCode != null) {
         // Try using the country code
@@ -92,6 +97,26 @@ class AppLocalizations {
           String jsonString = await rootBundle.loadString(assetPath);
           Map<String, dynamic> jsonMap = json.decode(jsonString);
           
+          // Check for missing required keys in fallback file
+          List<String> requiredKeys = [
+            'app_title', 'home_title', 'delete_all_title', 'unbeliever', 
+            'believer', 'unknown', 'add_person_hint', 'save', 'cancel',
+            'delete_all', 'delete_all_confirmation', 'yes', 'no', 'menu',
+            'home', 'language', 'language_selection', 'about', 'about_title',
+            'about_app_title', 'about_app_description1', 'about_app_description2'
+          ];
+          
+          List<String> missingKeys = [];
+          for (String key in requiredKeys) {
+            if (!jsonMap.containsKey(key)) {
+              missingKeys.add(key);
+            }
+          }
+          
+          if (missingKeys.isNotEmpty) {
+            print('WARNING: Missing keys in fallback ${locale.languageCode} locale: ${missingKeys.join(', ')}');
+          }
+          
           _localizedStrings = jsonMap.map((key, value) {
             return MapEntry(key, value.toString());
           });
@@ -143,28 +168,28 @@ class AppLocalizations {
   }
 
   // Convenience method to keep the code in the widgets concise
-  String get appTitle => translate('app_title') ?? 'App Title';
-  String get homeTitle => translate('home_title') ?? 'Home Title';
-  String get deleteAllTitle => translate('delete_all_title') ?? 'Delete All Title';
-  String get unbeliever => translate('unbeliever') ?? 'Unbeliever';
-  String get believer => translate('believer') ?? 'Believer';
-  String get unknown => translate('unknown') ?? 'Unknown';
-  String get addPersonHint => translate('add_person_hint') ?? 'Add Person Hint';
-  String get save => translate('save') ?? 'Save';
-  String get cancel => translate('cancel') ?? 'Cancel';
-  String get deleteAll => translate('delete_all') ?? 'Delete All';
-  String get deleteAllConfirmation => translate('delete_all_confirmation') ?? 'Delete All Confirmation';
-  String get yes => translate('yes') ?? 'Yes';
-  String get no => translate('no') ?? 'No';
-  String get menu => translate('menu') ?? 'Menu';
-  String get home => translate('home') ?? 'Home';
-  String get language => translate('language') ?? 'Language';
-  String get languageSelection => translate('language_selection') ?? 'Select Language';
-  String get about => translate('about') ?? 'About';
-  String get aboutTitle => translate('about_title') ?? 'About';
-  String get aboutAppTitle => translate('about_app_title') ?? 'About this App';
-  String get aboutAppDescription1 => translate('about_app_description1') ?? 'App description';
-  String get aboutAppDescription2 => translate('about_app_description2') ?? '';
+  String get appTitle => translate('app_title');
+  String get homeTitle => translate('home_title');
+  String get deleteAllTitle => translate('delete_all_title');
+  String get unbeliever => translate('unbeliever');
+  String get believer => translate('believer');
+  String get unknown => translate('unknown');
+  String get addPersonHint => translate('add_person_hint');
+  String get save => translate('save');
+  String get cancel => translate('cancel');
+  String get deleteAll => translate('delete_all');
+  String get deleteAllConfirmation => translate('delete_all_confirmation');
+  String get yes => translate('yes');
+  String get no => translate('no');
+  String get menu => translate('menu');
+  String get home => translate('home');
+  String get language => translate('language');
+  String get languageSelection => translate('language_selection');
+  String get about => translate('about');
+  String get aboutTitle => translate('about_title');
+  String get aboutAppTitle => translate('about_app_title');
+  String get aboutAppDescription1 => translate('about_app_description1');
+  String get aboutAppDescription2 => translate('about_app_description2');
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -183,6 +208,13 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
     if (locale.languageCode == 'swa') {
       print('Special debug - Checking support for ${locale.languageCode}');
       print('Is supported: $languageSupported');
+      print('Supported locales: ${AppLocalizations.supportedLocales.map((e) => e.languageCode).toList()}');
+    }
+    
+    // Special debug for Kurdish
+    if (locale.languageCode == 'ku') {
+      print('Special debug - Checking support for Kurdish');
+      print('Is Kurdish supported: $languageSupported');
       print('Supported locales: ${AppLocalizations.supportedLocales.map((e) => e.languageCode).toList()}');
     }
     
