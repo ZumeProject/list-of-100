@@ -1,8 +1,43 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../services/language_service.dart';
+
+// Custom delegate to provide fallback for Material localization
+class FallbackMaterialLocalizationsDelegate extends LocalizationsDelegate<MaterialLocalizations> {
+  const FallbackMaterialLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<MaterialLocalizations> load(Locale locale) async {
+    // Always use English as the fallback for Material widgets
+    return DefaultMaterialLocalizations();
+  }
+
+  @override
+  bool shouldReload(FallbackMaterialLocalizationsDelegate old) => false;
+}
+
+// Custom delegate to provide fallback for Cupertino localization
+class FallbackCupertinoLocalizationsDelegate extends LocalizationsDelegate<CupertinoLocalizations> {
+  const FallbackCupertinoLocalizationsDelegate();
+
+  @override
+  bool isSupported(Locale locale) => true;
+
+  @override
+  Future<CupertinoLocalizations> load(Locale locale) async {
+    // Always use English as the fallback for Cupertino widgets
+    return DefaultCupertinoLocalizations();
+  }
+
+  @override
+  bool shouldReload(FallbackCupertinoLocalizationsDelegate old) => false;
+}
 
 class AppLocalizations {
   final Locale locale;
@@ -11,6 +46,13 @@ class AppLocalizations {
   AppLocalizations(this.locale);
 
   static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
+  
+  // Add the fallback delegates for widget libraries
+  static const LocalizationsDelegate<MaterialLocalizations> fallbackMaterialDelegate = 
+      FallbackMaterialLocalizationsDelegate();
+      
+  static const LocalizationsDelegate<CupertinoLocalizations> fallbackCupertinoDelegate = 
+      FallbackCupertinoLocalizationsDelegate();
 
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations) ?? 
@@ -137,8 +179,10 @@ class AppLocalizations {
   String get addPersonHint => translate('add_person_hint');
   String get save => translate('save');
   String get cancel => translate('cancel');
+  String get delete => translate('delete');
   String get deleteAll => translate('delete_all');
   String get deleteAllConfirmation => translate('delete_all_confirmation');
+  String get deleteConfirmation => translate('delete_confirmation');
   String get yes => translate('yes');
   String get no => translate('no');
   String get menu => translate('menu');

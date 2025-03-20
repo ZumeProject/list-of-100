@@ -52,8 +52,33 @@ class _MyAppState extends State<MyApp> {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        AppLocalizations.fallbackMaterialDelegate,
+        AppLocalizations.fallbackCupertinoDelegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
+      localeListResolutionCallback: (locales, supportedLocales) {
+        if (locales == null || locales.isEmpty) {
+          return const Locale('en');
+        }
+        
+        final Locale requestedLocale = locales.first;
+        
+        for (final supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == requestedLocale.languageCode) {
+            if (supportedLocale.countryCode == requestedLocale.countryCode) {
+              return requestedLocale;
+            }
+          }
+        }
+        
+        for (final supportedLocale in supportedLocales) {
+          if (supportedLocale.languageCode == requestedLocale.languageCode) {
+            return supportedLocale;
+          }
+        }
+        
+        return const Locale('en');
+      },
       home: HomeScreen(setLocale: setLocale),
       routes: {
         '/home': (context) => HomeScreen(setLocale: setLocale),

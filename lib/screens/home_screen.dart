@@ -84,6 +84,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: AddPersonForm(
             nameController: _nameController,
             selectedStatus: _selectedStatus,
+            isEditing: true,
             onStatusChanged: (status) {
               setState(() {
                 _selectedStatus = status;
@@ -96,6 +97,10 @@ class _HomeScreenState extends State<HomeScreen> {
             onCancel: () {
               Navigator.pop(context);
               _resetForm();
+            },
+            onDelete: () {
+              _deletePerson(person.id);
+              Navigator.pop(context);
             },
           ),
         );
@@ -122,6 +127,12 @@ class _HomeScreenState extends State<HomeScreen> {
       
       _resetForm();
     }
+  }
+
+  void _deletePerson(String id) {
+    final storageService = Provider.of<StorageService>(context, listen: false);
+    storageService.removePerson(id);
+    _resetForm();
   }
 
   void _resetForm() {

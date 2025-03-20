@@ -9,6 +9,8 @@ class AddPersonForm extends StatefulWidget {
   final Function(Status) onStatusChanged;
   final VoidCallback onSave;
   final VoidCallback onCancel;
+  final VoidCallback? onDelete;
+  final bool isEditing;
 
   const AddPersonForm({
     super.key,
@@ -17,6 +19,8 @@ class AddPersonForm extends StatefulWidget {
     required this.onStatusChanged,
     required this.onSave,
     required this.onCancel,
+    this.onDelete,
+    this.isEditing = false,
   });
 
   @override
@@ -90,6 +94,16 @@ class _AddPersonFormState extends State<AddPersonForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              if (widget.isEditing && widget.onDelete != null) 
+                TextButton.icon(
+                  onPressed: _showDeleteConfirmation,
+                  icon: Icon(Icons.delete, color: AppTheme.errorColor),
+                  label: Text(
+                    localizations.delete,
+                    style: TextStyle(color: AppTheme.errorColor),
+                  ),
+                ),
+              const Spacer(),
               TextButton(
                 onPressed: widget.onCancel,
                 child: Text(localizations.cancel),
@@ -100,6 +114,35 @@ class _AddPersonFormState extends State<AddPersonForm> {
                 child: Text(localizations.save),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showDeleteConfirmation() {
+    final localizations = AppLocalizations.of(context);
+    
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(localizations.delete),
+        content: Text(localizations.deleteConfirmation),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            style: TextButton.styleFrom(),
+            child: Text(localizations.no),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context); // Close dialog
+              if (widget.onDelete != null) {
+                widget.onDelete!();
+              }
+            },
+            style: TextButton.styleFrom(foregroundColor: AppTheme.errorColor),
+            child: Text(localizations.yes),
           ),
         ],
       ),
