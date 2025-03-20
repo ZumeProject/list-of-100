@@ -44,5 +44,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
-# But don't ignore the web subdirectory
-!/build/web/
+
