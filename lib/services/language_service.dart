@@ -50,7 +50,6 @@ class LanguageService {
     const SupportedLanguage(code: 'ja', name: '日本語 (Japanese)'),
     const SupportedLanguage(code: 'kn', name: 'ಕನ್ನಡ (Kannada)'),
     const SupportedLanguage(code: 'ko', name: '한국어 (Korean)'),
-    const SupportedLanguage(code: 'ku', name: 'Kurdî (Kurdish)'),
     const SupportedLanguage(code: 'lo', name: 'ລາວ (Lao)'),
     const SupportedLanguage(code: 'mai', name: 'मैथिली (Maithili)'),
     const SupportedLanguage(code: 'ml', name: 'മലയാളം (Malayalam)'),
