@@ -194,6 +194,7 @@ class AppLocalizations {
   String get aboutAppTitle => translate('about_app_title');
   String get aboutAppDescription1 => translate('about_app_description1');
   String get aboutAppDescription2 => translate('about_app_description2');
+  String get visitZumeTraining => translate('visit_zume_training');
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

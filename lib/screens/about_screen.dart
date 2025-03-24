@@ -64,7 +64,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     await launchUrl(Uri.parse(url));
                   }
                 },
-                child: Text(localizations.visit_zume_training),
+                child: Text(localizations.visitZumeTraining),
               ),
             ),
           ],
