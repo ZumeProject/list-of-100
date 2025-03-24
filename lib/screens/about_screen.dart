@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../utils/app_theme.dart';
 import '../widgets/language_selector.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutScreen extends StatefulWidget {
   final Function(Locale)? setLocale;
@@ -19,6 +20,7 @@ class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
+    final currentLocale = Localizations.localeOf(context).languageCode;
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.aboutTitle),
@@ -51,6 +53,19 @@ class _AboutScreenState extends State<AboutScreen> {
             Text(
               localizations.aboutAppDescription2,
               style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  final url = 'https://zume.training/$currentLocale';
+                  if (await canLaunchUrl(Uri.parse(url))) {
+                    await launchUrl(Uri.parse(url));
+                  }
+                },
+                child: Text(localizations.visit_zume_training),
+              ),
             ),
           ],
         ),
