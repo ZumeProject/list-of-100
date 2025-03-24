@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'l10n/app_localizations.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' as gen;
 import 'screens/home_screen.dart';
 import 'screens/delete_all_screen.dart';
 import 'screens/about_screen.dart';
@@ -47,15 +47,13 @@ class _MyAppState extends State<MyApp> {
       title: 'Zúme List of 100',
       theme: AppTheme.lightTheme,
       locale: _locale,
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
+      localizationsDelegates: [
+        gen.AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        AppLocalizations.fallbackMaterialDelegate,
-        AppLocalizations.fallbackCupertinoDelegate,
       ],
-      supportedLocales: AppLocalizations.supportedLocales,
+      supportedLocales: gen.AppLocalizations.supportedLocales,
       localeListResolutionCallback: (locales, supportedLocales) {
         if (locales == null || locales.isEmpty) {
           return const Locale('en');

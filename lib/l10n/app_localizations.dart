@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import '../services/language_service.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart' as gen;
 
 // Custom delegate to provide fallback for Material localization
 class FallbackMaterialLocalizationsDelegate extends LocalizationsDelegate<MaterialLocalizations> {
@@ -41,9 +42,9 @@ class FallbackCupertinoLocalizationsDelegate extends LocalizationsDelegate<Cuper
 
 class AppLocalizations {
   final Locale locale;
-  Map<String, String> _localizedStrings = {};
+  final gen.AppLocalizations _gen;
 
-  AppLocalizations(this.locale);
+  AppLocalizations(this.locale, this._gen);
 
   static const LocalizationsDelegate<AppLocalizations> delegate = _AppLocalizationsDelegate();
   
@@ -56,147 +57,40 @@ class AppLocalizations {
 
   static AppLocalizations of(BuildContext context) {
     return Localizations.of<AppLocalizations>(context, AppLocalizations) ?? 
-        AppLocalizations(const Locale('en')); // Fallback to English if not found
+        AppLocalizations(const Locale('en'), gen.AppLocalizations.of(context)!); // Fallback to English if not found
   }
 
   // Use the LanguageService to get supported locales
   static List<Locale> get supportedLocales => LanguageService().locales;
 
-  Future<bool> load() async {
-    try {
-      // Try to handle special cases based on filename patterns first
-      String assetPath;
-      
-      // For Chinese or other languages with country code variants
-      if (locale.countryCode != null) {
-        // Format: language_COUNTRY (e.g., zh_CN, zh_TW, zh_HK)
-        assetPath = 'assets/l10n/app_${locale.languageCode}_${locale.countryCode!.toLowerCase()}.json';
-      } 
-      // For direct matches with only language code
-      else {
-        assetPath = 'assets/l10n/app_${locale.languageCode}.json';
-      }
-      
-      // Try looking for files with the exact language code from the Locale
-      try {
-        String jsonString = await rootBundle.loadString(assetPath);
-        Map<String, dynamic> jsonMap = json.decode(jsonString);
-        
-        // Check for missing required keys
-        List<String> requiredKeys = [
-          'app_title', 'home_title', 'delete_all_title', 'unbeliever', 
-          'believer', 'unknown', 'add_person_hint', 'save', 'cancel',
-          'delete_all', 'delete_all_confirmation', 'yes', 'no', 'menu',
-          'home', 'language', 'language_selection', 'about', 'about_title',
-          'about_app_title', 'about_app_description1', 'about_app_description2',
-          'visit_zume_training'
-        ];
-        
-        List<String> missingKeys = [];
-        for (String key in requiredKeys) {
-          if (!jsonMap.containsKey(key)) {
-            missingKeys.add(key);
-          }
-        }
-        
-        _localizedStrings = jsonMap.map((key, value) {
-          return MapEntry(key, value.toString());
-        });
-        
-        return true;
-      } catch (e) {
-        // If we couldn't find the exact match, try the simple language code as fallback
-        if (locale.countryCode != null) {
-          assetPath = 'assets/l10n/app_${locale.languageCode}.json';
-          String jsonString = await rootBundle.loadString(assetPath);
-          Map<String, dynamic> jsonMap = json.decode(jsonString);
-          
-          // Check for missing required keys in fallback file
-          List<String> requiredKeys = [
-            'app_title', 'home_title', 'delete_all_title', 'unbeliever', 
-            'believer', 'unknown', 'add_person_hint', 'save', 'cancel',
-            'delete_all', 'delete_all_confirmation', 'yes', 'no', 'menu',
-            'home', 'language', 'language_selection', 'about', 'about_title',
-            'about_app_title', 'about_app_description1', 'about_app_description2',
-            'visit_zume_training'
-          ];
-          
-          List<String> missingKeys = [];
-          for (String key in requiredKeys) {
-            if (!jsonMap.containsKey(key)) {
-              missingKeys.add(key);
-            }
-          }
-          
-          _localizedStrings = jsonMap.map((key, value) {
-            return MapEntry(key, value.toString());
-          });
-          
-          return true;
-        } else {
-          // If we still can't find it, throw to trigger the fallback to English
-          throw Exception('Language file not found');
-        }
-      }
-    } catch (e) {
-      try {
-        // Fall back to English
-        String jsonString = await rootBundle.loadString('assets/l10n/app_en.json');
-        Map<String, dynamic> jsonMap = json.decode(jsonString);
-        
-        _localizedStrings = jsonMap.map((key, value) {
-          return MapEntry(key, value.toString());
-        });
-        
-        return true;
-      } catch (e) {
-        // Initialize with empty map to prevent null errors
-        _localizedStrings = {};
-        return false;
-      }
-    }
-  }
-
-  String translate(String key) {
-    if (_localizedStrings.isEmpty) {
-      return key; // Return the key as fallback
-    }
-    
-    // Null safety check - return the key itself if translation not found
-    final value = _localizedStrings[key];
-    if (value == null) {
-      return key;
-    }
-    
-    return value;
-  }
-
-  // Convenience method to keep the code in the widgets concise
-  String get appTitle => translate('app_title');
-  String get homeTitle => translate('home_title');
-  String get deleteAllTitle => translate('delete_all_title');
-  String get unbeliever => translate('unbeliever');
-  String get believer => translate('believer');
-  String get unknown => translate('unknown');
-  String get addPersonHint => translate('add_person_hint');
-  String get save => translate('save');
-  String get cancel => translate('cancel');
-  String get delete => translate('delete');
-  String get deleteAll => translate('delete_all');
-  String get deleteAllConfirmation => translate('delete_all_confirmation');
-  String get deleteConfirmation => translate('delete_confirmation');
-  String get yes => translate('yes');
-  String get no => translate('no');
-  String get menu => translate('menu');
-  String get home => translate('home');
-  String get language => translate('language');
-  String get languageSelection => translate('language_selection');
-  String get about => translate('about');
-  String get aboutTitle => translate('about_title');
-  String get aboutAppTitle => translate('about_app_title');
-  String get aboutAppDescription1 => translate('about_app_description1');
-  String get aboutAppDescription2 => translate('about_app_description2');
-  String get visitZumeTraining => translate('visit_zume_training');
+  // Convenience methods to keep the code in the widgets concise
+  String get appTitle => _gen.app_title;
+  String get homeTitle => _gen.home_title;
+  String get profileTitle => _gen.profile_title;
+  String get deleteAllTitle => _gen.delete_all_title;
+  String get unbeliever => _gen.unbeliever;
+  String get believer => _gen.believer;
+  String get unknown => _gen.unknown;
+  String get addPersonHint => _gen.add_person_hint;
+  String get save => _gen.save;
+  String get cancel => _gen.cancel;
+  String get delete => _gen.delete;
+  String get deleteConfirmation => _gen.delete_confirmation;
+  String get deleteAll => _gen.delete_all;
+  String get deleteAllConfirmation => _gen.delete_all_confirmation;
+  String get yes => _gen.yes;
+  String get no => _gen.no;
+  String get menu => _gen.menu;
+  String get home => _gen.home;
+  String get profile => _gen.profile;
+  String get language => _gen.language;
+  String get languageSelection => _gen.language_selection;
+  String get about => _gen.about;
+  String get aboutTitle => _gen.about_title;
+  String get aboutAppTitle => _gen.about_app_title;
+  String get aboutAppDescription1 => _gen.about_app_description1;
+  String get aboutAppDescription2 => _gen.about_app_description2;
+  String get visitZumeTraining => _gen.visit_zume_training;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -225,9 +119,9 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
-    AppLocalizations localizations = AppLocalizations(locale);
-    await localizations.load();
-    return localizations;
+    final genDelegate = gen.AppLocalizations.delegate;
+    final genLocalizations = await genDelegate.load(locale);
+    return AppLocalizations(locale, genLocalizations);
   }
 
   @override

@@ -20,7 +20,6 @@ class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context);
-    final currentLocale = Localizations.localeOf(context).languageCode;
     return Scaffold(
       appBar: AppBar(
         title: Text(localizations.aboutTitle),
@@ -59,7 +58,11 @@ class _AboutScreenState extends State<AboutScreen> {
               width: double.infinity,
               child: ElevatedButton(
                 onPressed: () async {
-                  final url = 'https://zume.training/$currentLocale';
+                  final locale = Localizations.localeOf(context);
+                  final langCode = locale.countryCode != null 
+                      ? '${locale.languageCode}-${locale.countryCode}'
+                      : locale.languageCode;
+                  final url = 'https://zume.training/$langCode';
                   if (await canLaunchUrl(Uri.parse(url))) {
                     await launchUrl(Uri.parse(url));
                   }

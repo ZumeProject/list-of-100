@@ -10,6 +10,8 @@
   "add_person_hint": "Enter a name",
   "save": "Save",
   "cancel": "Cancel",
+  "delete": "Delete",
+  "delete_confirmation": "Are you sure you want to delete this entry?",
   "delete_all": "Delete All",
   "delete_all_confirmation": "Are you sure you want to delete all entries?",
   "yes": "Yes",
