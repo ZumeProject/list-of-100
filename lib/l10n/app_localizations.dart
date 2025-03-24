@@ -88,7 +88,8 @@ class AppLocalizations {
           'believer', 'unknown', 'add_person_hint', 'save', 'cancel',
           'delete_all', 'delete_all_confirmation', 'yes', 'no', 'menu',
           'home', 'language', 'language_selection', 'about', 'about_title',
-          'about_app_title', 'about_app_description1', 'about_app_description2'
+          'about_app_title', 'about_app_description1', 'about_app_description2',
+          'visit_zume_training'
         ];
         
         List<String> missingKeys = [];
@@ -116,7 +117,8 @@ class AppLocalizations {
             'believer', 'unknown', 'add_person_hint', 'save', 'cancel',
             'delete_all', 'delete_all_confirmation', 'yes', 'no', 'menu',
             'home', 'language', 'language_selection', 'about', 'about_title',
-            'about_app_title', 'about_app_description1', 'about_app_description2'
+            'about_app_title', 'about_app_description1', 'about_app_description2',
+            'visit_zume_training'
           ];
           
           List<String> missingKeys = [];
