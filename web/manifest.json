@@ -1,6 +1,6 @@
 {
-    "name": "zume_list_of_100",
-    "short_name": "zume_list_of_100",
+    "name": "Zúme List of 100",
+    "short_name": "List of 100",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
