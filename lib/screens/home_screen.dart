@@ -22,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _nameController = TextEditingController();
   Status _selectedStatus = Status.unknown;
   String? _editingPersonId;
+  Status? _filterStatus;
+  bool _sortAscending = true;
 
   @override
   void dispose() {
@@ -143,6 +145,14 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  List<Person> _getFilteredAndSortedPeople(List<Person> people) {
+    return List.from(people)
+      ..removeWhere((person) => _filterStatus != null && person.status != _filterStatus)
+      ..sort((a, b) => _sortAscending 
+        ? a.name.compareTo(b.name)
+        : b.name.compareTo(a.name));
+  }
+
   @override
   Widget build(BuildContext context) {
     final storageService = Provider.of<StorageService>(context);
@@ -152,6 +162,15 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: Text(localizations.homeTitle),
         actions: [
+          IconButton(
+            icon: Icon(_sortAscending ? Icons.arrow_upward : Icons.arrow_downward),
+            tooltip: _sortAscending ? 'Sort A-Z' : 'Sort Z-A',
+            onPressed: () {
+              setState(() {
+                _sortAscending = !_sortAscending;
+              });
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.language),
             tooltip: localizations.languageSelection,
@@ -164,7 +183,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           _buildStatusCounter(storageService.people),
           Expanded(
-            child: _buildPeopleList(storageService.people),
+            child: _buildPeopleList(_getFilteredAndSortedPeople(storageService.people)),
           ),
           _buildAddPersonTile(),
         ],
@@ -189,42 +208,68 @@ class _HomeScreenState extends State<HomeScreen> {
             unbelievers, 
             total,
             AppTheme.errorColor,
+            Status.unbeliever,
           ),
           _buildCounterItem(
             AppLocalizations.of(context).believer, 
             believers, 
             total,
             AppTheme.successColor,
+            Status.believer,
           ),
           _buildCounterItem(
             AppLocalizations.of(context).unknown, 
             unknowns, 
             total,
             Colors.grey,
+            Status.unknown,
           ),
         ],
       ),
     );
   }
 
-  Widget _buildCounterItem(String label, int count, int total, Color color) {
+  Widget _buildCounterItem(String label, int count, int total, Color color, Status status) {
     final percentage = total > 0 ? (count / total * 100).toInt() : 0;
+    final isSelected = _filterStatus == status;
     
-    return Column(
-      children: [
-        Text(
-          label,
-          style: const TextStyle(fontWeight: FontWeight.bold),
+    return InkWell(
+      onTap: () {
+        setState(() {
+          _filterStatus = isSelected ? null : status;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? color.withOpacity(0.1) : Colors.transparent,
+          borderRadius: BorderRadius.circular(8),
         ),
-        const SizedBox(height: 4),
-        Text(
-          '$count ($percentage%)',
-          style: TextStyle(
-            color: color,
-            fontWeight: FontWeight.bold,
-          ),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                if (isSelected) ...[
+                  const SizedBox(width: 4),
+                  const Icon(Icons.check, size: 16),
+                ],
+              ],
+            ),
+            const SizedBox(height: 4),
+            Text(
+              '$count ($percentage%)',
+              style: TextStyle(
+                color: color,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 
