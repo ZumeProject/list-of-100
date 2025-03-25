@@ -2,7 +2,7 @@
 
 A small application supporting the list of 100 activity.
 
-Web version: <https://listof100.netlify.app/>
+Web version: <https://listof100.zume.training/>
 
 ## Overview
 
@@ -16,4 +16,11 @@ This application helps users create and manage their "List of 100" - a list of p
 - Works offline as a Progressive Web App (PWA)
 - Mobile-friendly responsive design
 
-The web version is built with Flutter and can be accessed at <https://listof100.netlify.app/>
+The web version is built with Flutter and can be accessed at <https://listof100.zume.training/>
+
+## Build web and deploy
+
+```bash
+flutter build web
+ghp-import -n -p -f build/web
+```
